@@ -20,7 +20,7 @@ jobs:
           path: workflows
 
       - name: Copy workflow
-        run: cp workflows/ci.yml main/.github/workflows/ci.yml
+        run: cp workflows/${{ github.event.client_payload.workflow }} main/.github/workflows/ci.yml
 
       - name: Commit workflow
         run: |
