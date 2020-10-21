@@ -1,0 +1,29 @@
+name: Workflow Sync
+on:
+  repository_dispatch:
+    types: [sync-workflow]
+jobs:
+  myEvent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: main
+
+      - name: Checkout tools repo
+        uses: actions/checkout@v2
+        with:
+          repository: cferri-gr8/github-workflows
+          path: workflows
+
+      - name: Copy workflow
+        run: cp workflows/ci.yml main/.github/workflows/ci.yml
+
+      - name: Commit workflow
+        run: |
+          cd main
+          git add .github/workflows/ci.yml
+          git config --global user.name github-actions
+          git commit -m 'Update from ${{ github.event.client_payload.repository }} CICD ${{ github.event.client_payload.sha }}'
+          git remote -v
