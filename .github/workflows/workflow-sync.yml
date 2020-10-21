@@ -3,7 +3,7 @@ on:
   repository_dispatch:
     types: [sync-workflow]
 jobs:
-  myEvent:
+  sync:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,4 +26,4 @@ jobs:
           git add .github/workflows/ci.yml
           git config --global user.name github-actions
           git commit -m 'Update from ${{ github.event.client_payload.repository }} CICD ${{ github.event.client_payload.sha }}'
-          git remote -v
+          git push origin
