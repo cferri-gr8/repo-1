@@ -24,10 +24,11 @@ jobs:
 
       - name: Stage
         id: stage
-        run: \
+        run: |
           cd main
           git config --global user.name github-actions
           git status
+          echo ::set-output name=status::$(git status --porcelain)
 
       - name: Commit
         if: steps.stage.status != ''
