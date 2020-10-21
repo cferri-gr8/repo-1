@@ -9,12 +9,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
           path: main
 
       - name: Checkout workflows repo
         uses: actions/checkout@v2
         with:
           repository: cferri-gr8/github-workflows
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
           path: workflows
 
       - name: Copy workflow
