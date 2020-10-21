@@ -22,10 +22,16 @@ jobs:
       - name: Copy workflow
         run: cp workflows/${{ github.event.client_payload.workflow }} main/.github/workflows/ci.yml
 
-      - name: Commit workflow
-        run: |
+      - name: Stage
+        id: stage
+        run: \
           cd main
-          git add .github/workflows/ci.yml
           git config --global user.name github-actions
+          echo ::set-output name=status::$(git status --porcelain)
+
+      - name: Commit
+        if: steps.stage.status != ''
+        run: |
+          git add .github/workflows/ci.yml
           git commit -m 'Update from ${{ github.event.client_payload.repository }} CICD ${{ github.event.client_payload.sha }}'
           git push https://cferri-gr8:${{ secrets.REPO_ACCESS_TOKEN }}@github.com/${{ github.repository }}.git
