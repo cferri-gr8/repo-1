@@ -11,7 +11,7 @@ jobs:
         with:
           path: main
 
-      - name: Checkout tools repo
+      - name: Checkout workflows repo
         uses: actions/checkout@v2
         with:
           repository: cferri-gr8/github-workflows
@@ -26,4 +26,4 @@ jobs:
           git add .github/workflows/ci.yml
           git config --global user.name github-actions
           git commit -m 'Update from ${{ github.event.client_payload.repository }} CICD ${{ github.event.client_payload.sha }}'
-          git push origin
+          git push https://cferri-gr8:${{ secrets.REPO_ACCESS_TOKEN }}@github.com/${{ github.repository }}.git
